@@ -111,9 +111,9 @@ public class TransactionAccounter {
 			return;
 		}
 		
-		PointGroup head;
 		//deducts points from heap until heap has no points or deduction is complete
 		while(usedPoints > 0) {
+			PointGroup head;
 			//checks if heap is empty
 			if(pointQueue.size() >0) {
 				head = pointQueue.peek();
