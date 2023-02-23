@@ -104,9 +104,8 @@ public class TransactionAccounter {
 
 				//inserts PointGroup into pointHeap and payer into result
 				pointQueue.add(new PointGroup(components[0], linePoints, date));
-				if(!result.containsKey(components[0])) {
-					result.put(components[0], 0);
-				}
+				result.put(components[0], linePoints + ((result.get(components[0])==null) ? 0:(result.get(components[0]))));
+			
 			}
 		} catch (IOException e) {
 			System.out.println("ERROR: Invalid file name");
@@ -122,12 +121,15 @@ public class TransactionAccounter {
 			} else {
 				break;
 			}
-			//either subtracts deducted points from head, or subtracts head points from deducted and removes head
+			
+			//either subtracts deducted points from head, or subtracts head points from deducted and removes head (also updates result)
 			if(head.points > usedPoints) {
 				head.points -= usedPoints;
+				result.put(head.payer, result.get(head.payer)-usedPoints);
 				break;
 			}else {
 				usedPoints-=head.points;
+				result.put(head.payer, result.get(head.payer)-head.points);
 				pointQueue.poll();
 			}
 		}
@@ -136,12 +138,6 @@ public class TransactionAccounter {
 		if(pointQueue.size() == 0 && usedPoints != 0) {
 			System.out.println("Error: Insufficient funds(need " + usedPoints + " more points)");
 			return;
-		}
-		
-		//collapses all remaining points into corresponding payers(includes payers with 0 points)
-		while(!pointQueue.isEmpty()) {
-			result.put(pointQueue.peek().payer, pointQueue.peek().points + result.get(pointQueue.peek().payer));
-			pointQueue.poll();
 		}
 		
 		//uses keyset and iterator to iterate through result and prints summary
