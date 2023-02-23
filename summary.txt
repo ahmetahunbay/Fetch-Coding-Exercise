@@ -1,0 +1,25 @@
+﻿1. I chose to write this program in Eclipse using Java and the OpenCSV library. I chose Java for several reasons.
+ Java is my favorite and most comfortable programming language. I considered using R or Python, but both of those
+ languages are relatively new to me and it is unlikely that I would have had the same level of control and speed
+ as I would with Java. Not to mention that Java is lower level and more efficient. I used Eclipse because I am
+ used to coding and debugging Java in Eclipse. I used the OpenCSV library to write my tester methods more easily.
+ The writer automatically entered string arrays into the csv file with the correct format.
+
+
+2. One disadvantage of my solution is that it is more complex, since it was written in a lower level language.
+ If I used Python or R, the code would have been much more concise, but also slower. Another disadvantage is 
+that there is a low level of flexibility in the format of the timestamp. If I had used R, almost any date string
+ could have been parsed. In Java however, I had to either assume that the dates would maintain a constant format,
+ or write code to account for all other possible date/time formats. Finally, I used extra space with my priority
+ queue and hashmap when I could have potentially solved the problem in constant space by sorting the csv file.
+ However, that approach would have increased the runtime.
+
+
+3. My favorite personal project so far has been a radiotherapy report generator that I made for faculty at the
+ Medical College of Wisconsin. This project marked the first time I helped people with my code by automating a
+ tedious process. The main challenge of this project was that I was using project specifications from doctors who
+ did not have much computer science knowledge. Therefore, I had to carefully ask questions and make sure I was
+ completely understanding what they were trying to accomplish with the report. Another challenge was that I had
+ to adapt to rare technologies and APIs to bridge my program to the Medical College’s radiotherapy machine. From
+ this project, I learned about how much I love wrangling data and abstracting large and convoluted datasets into
+ simple conclusions.
