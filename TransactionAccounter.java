@@ -177,6 +177,7 @@ public class TransactionAccounter {
 			while(!pointQueue.isEmpty()) {
 				//declare variables to hold points, date, and days until expiry
 				int points = pointQueue.peek().points;
+				//polls queue for iteration
 				ZonedDateTime date = pointQueue.poll().date;
 				int time = (int) Math.floor(Duration.between(exp, date).toDays());				
 
@@ -187,6 +188,7 @@ public class TransactionAccounter {
 					
 					//either sums points and checks next node(similar times), or breaks(dissimilar times)
 					if(nextTime == time) {
+						//polls queue for iteration
 						points += pointQueue.poll().points;
 					} else {
 						break;
