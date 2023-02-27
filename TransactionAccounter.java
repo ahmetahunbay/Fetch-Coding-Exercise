@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
+
 import java.util.Iterator;
 
 /**
@@ -114,10 +116,9 @@ public class TransactionAccounter {
 					continue;
 				}
 
-
 				//inserts PointGroup into pointHeap and payer into result
 				pointQueue.add(new PointGroup(components[0], linePoints, date));
-				result.put(components[0], linePoints + ((result.get(components[0])==null) ? 0:(result.get(components[0]))));
+				result.put(components[0], linePoints + ((result.get(components[0]) == null) ? 0:(result.get(components[0]))));
 			
 			}
 		} catch (IOException e) {
@@ -135,7 +136,7 @@ public class TransactionAccounter {
 				break;
 			}
 			
-			//either subtracts deducted points from head, or subtracts head points from deducted and removes head (also updates result)
+			//either subtracts deducted points from head, or subtracts head points from deducted and removes head
 			if(head.points > usedPoints) {
 				head.points -= usedPoints;
 				result.put(head.payer, result.get(head.payer)-usedPoints);
@@ -163,6 +164,46 @@ public class TransactionAccounter {
 				System.out.println(",");
 			}
 		}
+		
+		//OPTIONAL: prints report that shows when points will expire
+		System.out.println("\nWould you like a report on point expiry times? [Y]:yes, [Any Char]:no");
+		Scanner input = new Scanner(System.in);
+		String choice = input.next();
+		input.close();
+		
+		//unless input is 'Y', nothing will run
+		if(choice != null && choice.equals("Y")) {
+			//iterates through untouched points in pointQueue -- use pointQueue because it contains the dates
+			while(!pointQueue.isEmpty()) {
+				//declare variables to hold points, date, and days until expiry
+				int points = pointQueue.peek().points;
+				ZonedDateTime date = pointQueue.poll().date;
+				int time = (int) Math.floor(Duration.between(exp, date).toDays());				
+
+				//collapses similar dates into a single line
+				while(pointQueue.peek() != null) {					
+					ZonedDateTime nextDate = pointQueue.peek().date;
+					int nextTime = (int) Math.floor(Duration.between(exp, nextDate).toDays());	
+					
+					//either sums points and checks next node(similar times), or breaks(dissimilar times)
+					if(nextTime == time) {
+						points += pointQueue.poll().points;
+					} else {
+						break;
+					}
+				}
+			
+				//reports on point status
+				if(time == 0) {
+					System.out.println(points + " points expire in less than a day");
+					continue;
+				}
+				System.out.println(points + " points expire in " + time + " day" + (time == 1 ? "" : "s"));
+				continue;
+			}
+		}
+		
+		
 	}
 	
 	/**
