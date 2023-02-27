@@ -56,6 +56,8 @@ public class TransactionAccounter {
 		//tracks payer list
 		LinkedHashMap<String, Integer> result = new LinkedHashMap<String, Integer>();
 		
+		ZonedDateTime exp = ZonedDateTime.now().minusDays(10);
+		
 		//try/catch to check for invalid file
 		try {	
 			//counts line number for error messages
@@ -100,6 +102,12 @@ public class TransactionAccounter {
 					System.out.println("Invalid points value: CSV line " + lineCT);
 					continue;
 				}
+				
+				if(date.isBefore(exp)){
+					System.out.println("Expired ticket: CSV line " + lineCT);
+					continue;
+				}
+				
 				if(linePoints <0){
 					usedPoints -= linePoints;
 					if(!result.containsKey(components[0])) result.put(components[0], 0);
