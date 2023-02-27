@@ -100,6 +100,12 @@ public class TransactionAccounter {
 					System.out.println("Invalid points value: CSV line " + lineCT);
 					continue;
 				}
+				if(linePoints <0){
+					usedPoints -= linePoints;
+					if(!result.containsKey(components[0])) result.put(components[0], 0);
+					continue;
+				}
+
 
 				//inserts PointGroup into pointHeap and payer into result
 				pointQueue.add(new PointGroup(components[0], linePoints, date));
