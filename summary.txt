@@ -12,7 +12,7 @@ that there is a low level of flexibility in the format of the timestamp. If I ha
  could have been parsed. In Java however, I had to either assume that the dates would maintain a constant format,
  or write code to account for all other possible date/time formats. Finally, I used extra space with my priority
  queue and hashmap when I could have potentially solved the problem in constant space by sorting the csv file.
- However, that approach would have increased the runtime.
+ However, that approach would have increased the runtime. I also realized that I could have made just one large write (and a small write for the current pq head) to the DB for every call to /spend, rather than several for each pop from the head of my pq. I could have potentially done this by storing my timestamp as a big int, then simply selecting from the db all transactions with a time < the current head's time.
 
 
 3. My favorite personal project so far has been a radiotherapy report generator that I made for faculty at the
